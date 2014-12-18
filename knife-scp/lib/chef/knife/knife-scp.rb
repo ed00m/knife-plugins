@@ -1,6 +1,4 @@
 require 'chef/knife'
-require 'net/scp'
-require 'parallel'
 
 module CustomPlugins
   class Scp < Chef::Knife
@@ -14,6 +12,8 @@ module CustomPlugins
       
     deps do
       require 'chef/search/query'
+      require 'net/scp'
+      require 'parallel'
     end
 
     def run
