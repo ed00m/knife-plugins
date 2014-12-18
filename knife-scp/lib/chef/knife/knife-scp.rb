@@ -1,12 +1,17 @@
 require 'chef/knife'
-require 'net/ssh/multi'
 require 'net/scp'
 require 'parallel'
 
 module CustomPlugins
   class Scp < Chef::Knife
     banner "knife scp SEARCH_QUERY PATH_OF_LOCAL_FILE_OR_FOLDER PATH_ON_REMOTE_MACHINE"
-
+    
+    option :knife_config_path,
+      :short => "-c PATH_OF_knife.rb",
+      :long  => "--config PATH_OF_knife.rb",
+      :description => "Specify path of knife.rb",
+      :default => "/etc/chef/knife.rb"
+      
     deps do
       require 'chef/search/query'
     end
@@ -17,7 +22,7 @@ module CustomPlugins
         show_usage
         exit 1
       end
-      Chef::Config.from_file(File.expand_path("/Users/mayank/.chef/knife.rb"))
+      Chef::Config.from_file(File.expand_path("#{config[:knife_config_path"))
       query = name_args[0]
       local_path = name_args[1]
       remote_path = name_args[2]
@@ -30,7 +35,7 @@ module CustomPlugins
         ui.msg "No valid servers found to copy the files to"
       end
       unless File.exist?(local_path)
-        ui.msg "#{local_path} doesn’t exist on local machine"
+        ui.msg "#{local_path} does not exist on local machine"
         exit 1
       end
 
