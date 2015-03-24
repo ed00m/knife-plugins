@@ -1,7 +1,4 @@
 require 'chef/knife'
-require 'net/ssh/multi'
-require 'net/scp'
-require 'parallel'
 
 module CustomPlugins
   class Scp < Chef::Knife
@@ -15,6 +12,8 @@ module CustomPlugins
       
     deps do
       require 'chef/search/query'
+      require 'net/scp'
+      require 'parallel'
     end
 
     def run
@@ -36,7 +35,7 @@ module CustomPlugins
         ui.msg "No valid servers found to copy the files to"
       end
       unless File.exist?(local_path)
-        ui.msg "#{local_path} doesn’t exist on local machine"
+        ui.msg "#{local_path} does not exist on local machine"
         exit 1
       end
 
